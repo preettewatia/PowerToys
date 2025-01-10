@@ -10,6 +10,7 @@
 
 #include <WorkspacesLib/AppUtils.h>
 #include <WorkspacesLib/PwaHelper.h>
+#include <WorkspacesLib/CommandLineArgsHelper.h>
 
 #pragma comment(lib, "ntdll.lib")
 
@@ -143,6 +144,8 @@ namespace SnapshotUtils
                     appData.name = pwaName + L" (" + appData.name + L")";
                 }
             }
+            CommandLineArgsHelper commandLineArgsHelper;
+            auto commandLineArgs = commandLineArgsHelper.GetCommandLineArgs(pid);
 
             bool isMinimized = WindowUtils::IsMinimized(window);
             unsigned int monitorNumber = getMonitorNumberFromWindowHandle(window);
@@ -164,7 +167,7 @@ namespace SnapshotUtils
                 .packageFullName = appData.packageFullName,
                 .appUserModelId = appData.appUserModelId,
                 .pwaAppId = appData.pwaAppId,
-                .commandLineArgs = L"",
+                .commandLineArgs = commandLineArgs,
                 .isElevated = IsProcessElevated(pid),
                 .canLaunchElevated = appData.canLaunchElevated,
                 .isMinimized = isMinimized,
